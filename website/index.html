@@ -4,11 +4,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CI/CD Demo Application</title>
+
+    <title>Welcome | Bhavya Suresh</title>
+
+    <meta name="description"
+          content="Welcome to my CI/CD project, built with GitHub Actions and AWS S3.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #102044;
+            --blue: #3768f5;
+            --light-blue: #eaf0ff;
+            --text: #526078;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--navy);
+            background: #f7f9ff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            width: 100%;
+            padding: 24px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-size: 20px;
+            font-weight: 750;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            color: white;
+            background: linear-gradient(135deg, #3768f5, #754df3);
+            font-size: 23px;
+        }
+
+        .header-label {
+            color: #65728a;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 55px 8% 75px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow {
+            position: absolute;
+            width: 390px;
+            height: 390px;
+            border-radius: 50%;
+            background: #dfe8ff;
+            filter: blur(75px);
+            opacity: 0.75;
+            right: -100px;
+            top: 8%;
+            pointer-events: none;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            align-items: center;
+            gap: 55px;
+            position: relative;
+            z-index: 1;
+            animation: appear 0.8s ease both;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 15px;
+            border: 1px solid #dbe5ff;
+            border-radius: 50px;
+            background: #fff;
+            color: #3158ca;
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: 1px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22b573;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px #e2f8ed;
+        }
+
+        h1 {
+            margin-top: 27px;
+            font-size: clamp(42px, 5.5vw, 66px);
+            line-height: 1.08;
+            letter-spacing: -2.7px;
+            font-weight: 800;
+        }
+
+        h1 span {
+            color: var(--blue);
+        }
+
+        .description {
+            margin-top: 23px;
+            max-width: 490px;
+            font-size: 16px;
+            line-height: 1.9;
+            color: var(--text);
+        }
+
+        .actions {
+            margin-top: 31px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 21px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #3768f5, #5b55ed);
+            box-shadow: 0 10px 25px #3768f52c;
+        }
+
+        .button-secondary {
+            color: var(--navy);
+            border: 1px solid #dce3ef;
+            background: #fff;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px #243c701c;
+        }
+
+        .signature {
+            margin-top: 34px;
+            color: #7b879b;
+            font-size: 13px;
+        }
+
+        .signature strong {
+            color: #34435d;
+        }
+
+        .visual {
+            position: relative;
+            padding: 26px;
+            border: 1px solid #ffffff;
+            border-radius: 28px;
+            background: linear-gradient(145deg, #ffffff, #edf2ff);
+            box-shadow: 0 25px 70px #243c7018;
+        }
+
+        .visual-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 23px;
+        }
+
+        .visual-heading h2 {
+            font-size: 15px;
+        }
+
+        .live-label {
+            color: #16865b;
+            background: #e5f8ee;
+            padding: 7px 10px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #edf0f7;
+            border-radius: 15px;
+            background: #fff;
+            transition: transform 0.2s;
+        }
+
+        .feature:hover {
+            transform: translateX(4px);
+        }
+
+        .feature-icon {
+            flex-shrink: 0;
+            width: 45px;
+            height: 45px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            font-size: 21px;
+        }
+
+        .icon-blue { background: #e9efff; }
+        .icon-purple { background: #f0eaff; }
+        .icon-green { background: #e3f8ed; }
+
+        .feature h3 {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .feature p {
+            color: #77839a;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .success-message {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 13px;
+            color: #16734f;
+            background: #e9f9f0;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .success-check {
+            display: grid;
+            place-items: center;
+            width: 25px;
+            height: 25px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            color: #fff;
+            background: #22a66b;
+            font-weight: bold;
+        }
+
+        footer {
+            padding: 22px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border-top: 1px solid #e9edf5;
+            color: #78849a;
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #4b5870;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 760px) {
+            header {
+                padding: 18px 6%;
+            }
+
+            .header-label {
+                font-size: 11px;
+            }
+
+            main {
+                padding: 45px 6%;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+                gap: 42px;
+            }
+
+            h1 {
+                letter-spacing: -1.8px;
+            }
+
+            .description {
+                font-size: 15px;
+            }
+
+            .visual {
+                padding: 19px;
+            }
+
+            footer {
+                padding: 20px 6%;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>CI/CD Demo Application</h1>
-    <p>Hello from Bhavya! Automatic deployment test successful.</p>
-    <p>This website is deployed using GitHub Actions and AWS S3.</p>
+
+    <header>
+        <div class="brand">
+            <div class="brand-icon">☁</div>
+            <span>CloudLaunch</span>
+        </div>
+
+        <div class="header-label">MY CI/CD PROJECT</div>
+    </header>
+
+    <main>
+        <div class="glow"></div>
+
+        <div class="content">
+
+            <section class="intro">
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    MY FIRST CI/CD PROJECT
+                </div>
+
+                <h1>
+                    Welcome to<br>
+                    my <span>digital space.</span>
+                </h1>
+
+                <p class="description">
+                    Every great journey starts with a first step.
+                    This website is my hands-on cloud project,
+                    built to explore automation, continuous delivery,
+                    and the power of AWS.
+                </p>
+
+                <div class="actions">
+                    <a class="button button-primary"
+                       href="#project">
+                        Explore my project <span>→</span>
+                    </a>
+
+                    <a class="button button-secondary"
+                       href="https://github.com/Bhavya-Suresh15/github-actions-cicd"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        View on GitHub ↗
+                    </a>
+                </div>
+
+                <p class="signature">
+                    Designed and built by <strong>Bhavya Suresh</strong>
+                </p>
+            </section>
+
+            <section class="visual" id="project">
+                <div class="visual-heading">
+                    <h2>What powers this website?</h2>
+                    <span class="live-label">PROJECT OVERVIEW</span>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon icon-blue">⌘</div>
+                    <div>
+                        <h3>GitHub Actions</h3>
+                        <p>Automatically runs the project workflow when code changes.</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon icon-purple">☁</div>
+                    <div>
+                        <h3>Amazon S3</h3>
+                        <p>Stores the website files and serves the welcome page.</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon icon-green">✓</div>
+                    <div>
+                        <h3>Automated Deployment</h3>
+                        <p>Publishes website updates after a successful workflow.</p>
+                    </div>
+                </div>
+
+                <div class="success-message">
+                    <span class="success-check">✓</span>
+                    <span>Built with curiosity. Deployed with automation.</span>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <span>© 2026 <strong>Bhavya Suresh</strong></span>
+        <span>Learning • Building • Growing</span>
+    </footer>
+
 </body>
 </html>
