@@ -28,7 +28,7 @@ jobs:
 
   deploy:
     name: Deploy website to S3
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/new')
     needs: test
     runs-on: ubuntu-latest
 
